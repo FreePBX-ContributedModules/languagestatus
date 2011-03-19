@@ -11,7 +11,6 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
-
 $language = $_COOKIE['lang'];
 if($language != "en_US") {
 
@@ -75,10 +74,19 @@ if($language != "en_US") {
  $total = $result[0] -1;
  $total_translated = $result[1] -1;
  $total_untranslated = $total - $total_translated;
+ $percent_completed = number_format((($total_translated/$total)*100),0);
+ if ($percent_completed == 100) {  // Green color, all is OK! Nice work
+	$bgcolor = "#00ff00";
+ } elseif ($percent_completed >= 75) {  // Almost there, just a few more translations to do
+	$bgcolor = "#ffff00";
+ } elseif ($percent_completed < 75) {  // Wow, someone got tired of translation or we just released a new version with a lot of new text strings.
+	$bgcolor = "#ff0000";
+ };
+
  echo "<h1>Translation status for ".$_COOKIE['lang']."</h1>";
- echo "<table border = 1><tr><td>";
- echo "Application/Module</td><td>Strings</td><td>Translated</td><td>Not translated</td></tr>";
- echo "<td>core</td><td align =\"right\">".$total."</td><td align =\"right\">".$total_translated."</td><td align =\"right\">".$total_untranslated."</td></tr>";
+ echo "<table ><tr><td>";
+ echo "Application/Module</td><td>Strings</td><td>Translated</td><td>Not translated</td><td>Percent completed</td></tr>";
+ echo "<td>core</td><td style=\"background-color: ".$bgcolor."\" align =\"center\">".$total."</td><td style=\"background-color: ".$bgcolor."\" align =\"center\">".$total_translated."</td><td style=\"background-color: ".$bgcolor."\" align =\"center\">".$total_untranslated."</td><td style=\"background-color: ".$bgcolor."\" align =\"center\">".$percent_completed."%</td></tr>";
 
  $module = "ari";
  $result = check_translate_status($amp_conf['AMPWEBROOT']."/recordings/locale/",$language,$module);
@@ -92,8 +100,16 @@ if($language != "en_US") {
    } else {
     $total_translated = "0";
    }
-   $total_untranslated = $total - $total_translated;  
- echo "<td>ari</td><td align =\"right\">".$total."</td><td align =\"right\">".$total_translated."</td><td align =\"right\">".$total_untranslated."</td></tr>";
+   $total_untranslated = $total - $total_translated;
+   $percent_completed = number_format((($total_translated/$total)*100),0);
+	if ($percent_completed == 100) {  // Green color, all is OK! Nice work
+	 $bgcolor = "#00ff00";
+	} elseif ($percent_completed >= 75) {  // Almost there, just a few more translations to do
+	 $bgcolor = "#ffff00";
+	} elseif ($percent_completed < 75) {  // Wow, someone got tired of translation or we just released a new version with a lot of new text strings.
+	 $bgcolor = "#ff0000";
+	};
+ echo "<td>ari</td><td style=\"background-color: ".$bgcolor."\" align =\"center\">".$total."</td><td  style=\"background-color: ".$bgcolor."\" align=\"center\">".$total_translated."</td><td style=\"background-color: ".$bgcolor."\" align =\"center\">".$total_untranslated."</td><td style=\"background-color: ".$bgcolor."\" align =\"center\">".$percent_completed."%</td></tr>";
 
  foreach($supported_modules as $langmodule) {
   $result = check_translate_status($amp_conf['AMPWEBROOT']."/admin/modules/$langmodule/i18n/",$language,$langmodule);
@@ -108,12 +124,25 @@ if($language != "en_US") {
     $total_translated = "0";
    }
    $total_untranslated = $total - $total_translated;
-   echo "<td>".$langmodule."</td><td align =\"right\">".$total."</td><td align =\"right\">".$total_translated."</td><td align =\"right\">".$total_untranslated."</td></tr>";
+   if($total != "0") { // if there is no .pot file we can't divide by zero
+    $percent_completed = number_format((($total_translated/$total)*100),0);
+		 if ($percent_completed == 100) {  // Green color, all is OK! Nice work
+ 			$bgcolor = "#00ff00";
+		 } elseif ($percent_completed >= 75) {  // Almost there, just a few more translations to do
+	 		$bgcolor = "#ffff00";
+		 } elseif ($percent_completed < 75) {  // Wow, someone got tired of translation or we just released a new version with a lot of new text strings.
+	 		$bgcolor = "#ff0000";
+		 }
+	 } else {
+	 $percent_completed = 0;
+	 $bgcolor = "#ff0000";
+	 };
+   echo "<td>".$langmodule."</td><td style=\"background-color: ".$bgcolor."\" align =\"center\">".$total."</td><td style=\"background-color: ".$bgcolor."\" align =\"center\">".$total_translated."</td><td style=\"background-color: ".$bgcolor."\" align =\"center\">".$total_untranslated."</td><td style=\"background-color: ".$bgcolor."\" align =\"center\">".$percent_completed."%</td></tr>";
   }
   echo "</table>";
   } 
  }
  else {
-  echo "<h1>Language Status</h1><br>Select language in the language selection";
-  }
+  echo "<h1>Language Status</h1><br>Select language in the language selection<br>";
+}
 ?>
