@@ -6,8 +6,7 @@
 	<publisher>Mikael Carlsson</publisher>
 	<license>GPLv2+</license>
 	<description>Show the number of translated strings for a given language</description>
-	<type>tool</type>
-	<category>System Administration</category>
+	<category>Admin</category>
 	<menuitems>
 		<languagestatus>Language Status</languagestatus>
 	</menuitems>
