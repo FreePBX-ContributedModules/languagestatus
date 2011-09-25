@@ -66,7 +66,6 @@ if($language != "en_US") {
   "vmblast",
   "voicemail",
   );
-
  if (file_exists($amp_conf['AMPWEBROOT']."/admin/i18n/${language}/LC_MESSAGES/amp.po" ))
  {
  $module = "amp";
@@ -113,6 +112,7 @@ if($language != "en_US") {
 
  foreach($supported_modules as $langmodule) {
   $result = check_translate_status($amp_conf['AMPWEBROOT']."/admin/modules/$langmodule/i18n/",$language,$langmodule);
+dbug($langmodule, $result);
   if($result[0] != "0") { 
    $total = $result[0] -1;
    } else { 

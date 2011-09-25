@@ -15,8 +15,8 @@
 // and once for getting the translated strings in the .po fro the module
 function check_translate_status($language_path, $language, $module)
 {
-$totalmsgcmd        = "msgattrib --stringtable-output ".$language_path.$module.".pot | grep \"^\\\"\" | wc -l";
-$translatedmsgcmd   = "msgattrib --stringtable-output --translated ".$language_path.$language."/LC_MESSAGES/".$module.".po | grep \"^\\\"\" | wc -l";
+$totalmsgcmd        = "msgattrib --stringtable-output ".$language_path.$module.'.pot | grep "^\"" | wc -l';
+$translatedmsgcmd   = "msgattrib --stringtable-output --translated ".$language_path.$language."/LC_MESSAGES/".$module.'.po | grep "^\"" | wc -l';
 exec($totalmsgcmd, $total);
 exec($translatedmsgcmd, $total);
 return($total);
