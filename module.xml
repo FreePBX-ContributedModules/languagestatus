@@ -19,4 +19,4 @@
 	</changelog>
 <md5sum>85eaba6afc953e32f1675576eb7f56e5</md5sum>
 <location>release/2.10/languagestatus-2.10.0.0.tgz</location>
-</module>
+<supported><version>2.10</version></supported></module>
